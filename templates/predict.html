@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Run a Prediction - FloodGuard{% endblock %}
+
+{% block content %}
+<section class="predict-page">
+    <div class="section-inner narrow">
+        <div class="page-header">
+            <h1>Flood Risk Prediction</h1>
+            <p>Enter the weather and rainfall data below to estimate flood probability.</p>
+        </div>
+
+        {% if not model_ready %}
+        <div class="alert alert-error">
+            <strong>Model not available.</strong>
+            <p>{{ model_error }}</p>
+        </div>
+        {% endif %}
+
+        <div class="predict-grid">
+            <div class="card form-card">
+                <h2>Weather Data</h2>
+                <form id="predictionForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="temp">Temperature (°C)</label>
+                            <input type="number" id="temp" name="Temp" step="0.1" placeholder="e.g., 30" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="humidity">Humidity (%)</label>
+                            <input type="number" id="humidity" name="Humidity" step="0.1" min="0" max="100" placeholder="e.g., 74" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cloud">Cloud Cover (%)</label>
+                            <input type="number" id="cloud" name="Cloud Cover" step="0.1" min="0" max="100" placeholder="e.g., 36" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="annual">Annual Rainfall (mm)</label>
+                            <input type="number" id="annual" name="ANNUAL" step="0.1" placeholder="e.g., 3050" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="janfeb">Jan&ndash;Feb Rainfall (mm)</label>
+                            <input type="number" id="janfeb" name="Jan-Feb" step="0.1" placeholder="e.g., 15" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="marmay">Mar&ndash;May Rainfall (mm)</label>
+                            <input type="number" id="marmay" name="Mar-May" step="0.1" placeholder="e.g., 120" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="junsep">Jun&ndash;Sep Rainfall (mm)</label>
+                            <input type="number" id="junsep" name="Jun-Sep" step="0.1" placeholder="e.g., 2400" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="octdec">Oct&ndash;Dec Rainfall (mm)</label>
+                            <input type="number" id="octdec" name="Oct-Dec" step="0.1" placeholder="e.g., 415" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="avgjune">Average June Rainfall (mm)</label>
+                            <input type="number" id="avgjune" name="avgjune" step="0.1" placeholder="e.g., 235" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sub">Subdivision Rainfall Index</label>
+                            <input type="number" id="sub" name="sub" step="0.1" placeholder="e.g., 430" required>
+                        </div>
+                    </div>
+
+                    <div id="formError" class="alert alert-error" style="display:none;"></div>
+
+                    <button type="submit" class="btn btn-primary btn-full" id="submitBtn" {{ "disabled" if not model_ready }}>
+                        <span id="btnText">Predict Flood Risk</span>
+                        <span id="btnSpinner" class="spinner" style="display:none;"></span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="card result-card" id="resultCard">
+                <div class="result-placeholder" id="resultPlaceholder">
+                    <div class="placeholder-icon">📈</div>
+                    <p>Your prediction result will appear here.</p>
+                </div>
+
+                <div id="resultContent" style="display:none;">
+                    <div id="riskBadge" class="risk-badge"></div>
+                    <p id="riskMessage" class="risk-message"></p>
+
+                    <div class="prob-item">
+                        <div class="prob-label">
+                            <span>Flood Probability</span>
+                            <span id="floodPercent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="floodBar" class="progress-fill flood-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="prob-item">
+                        <div class="prob-label">
+                            <span>No-Flood Probability</span>
+                            <span id="noFloodPercent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="noFloodBar" class="progress-fill safe-fill"></div>
+                        </div>
+                    </div>
+
+                    <p class="model-tag">Model used: <strong id="modelName"></strong></p>
+                    <button type="button" class="btn btn-ghost btn-full" id="resetBtn">Enter New Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

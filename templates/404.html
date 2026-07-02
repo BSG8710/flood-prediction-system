@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Page Not Found - FloodGuard{% endblock %}
+{% block content %}
+<section class="error-page">
+    <div class="section-inner narrow error-inner">
+        <div class="placeholder-icon">🌊</div>
+        <h1>404</h1>
+        <p>This page has drifted away. Let's get you back to safety.</p>
+        <a href="{{ url_for('main.home') }}" class="btn btn-primary">Back to Home</a>
+    </div>
+</section>
+{% endblock %}

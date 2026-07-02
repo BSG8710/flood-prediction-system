@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}FloodGuard - AI Flood Risk Prediction{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-text">
+            <span class="badge">⚡ Powered by Machine Learning</span>
+            <h1>Predict flood risk before it becomes an emergency.</h1>
+            <p>FloodGuard analyzes rainfall, temperature, humidity and cloud cover
+               patterns to estimate flood probability in real time &mdash; helping
+               teams issue early warnings and act with confidence.</p>
+            <div class="hero-actions">
+                <a href="{{ url_for('main.predict_page') }}" class="btn btn-primary">Run a Prediction</a>
+                <a href="{{ url_for('main.history') }}" class="btn btn-ghost">View History</a>
+            </div>
+            {% if metadata %}
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">{{ "%.1f"|format(metadata.metrics[metadata.best_model_name].accuracy * 100) }}%</span>
+                    <span class="stat-label">Model Accuracy</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">{{ metadata.best_model_name }}</span>
+                    <span class="stat-label">Best Model</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">{{ total_predictions }}</span>
+                    <span class="stat-label">Predictions Logged</span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+            <div class="wave-card">
+                <div class="wave-icon">🌧️</div>
+                <div class="wave-bars">
+                    <span style="height:35%"></span>
+                    <span style="height:60%"></span>
+                    <span style="height:45%"></span>
+                    <span style="height:80%"></span>
+                    <span style="height:55%"></span>
+                    <span style="height:70%"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="section-inner">
+        <h2>Why FloodGuard</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Data Driven</h3>
+                <p>Trained on historical rainfall, temperature and humidity records using multiple ML algorithms.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3>Model Comparison</h3>
+                <p>Decision Tree, Random Forest, KNN and XGBoost are compared automatically &mdash; the best performer wins.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⏱️</div>
+                <h3>Real-time Results</h3>
+                <p>Get an instant flood/no-flood classification with a probability breakdown, right in your browser.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🗂️</div>
+                <h3>Prediction History</h3>
+                <p>Every prediction is logged, so you can review trends and past risk assessments over time.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if metadata %}
+<section class="insights">
+    <div class="section-inner">
+        <h2>Model Insights</h2>
+        <p class="section-sub">Generated automatically by <code>train.py</code> during model training.</p>
+        <div class="insights-grid">
+            <div class="insight-card">
+                <h4>Model Comparison</h4>
+                <img src="{{ url_for('static', filename='img/model_comparison.png') }}" alt="Model comparison chart">
+            </div>
+            <div class="insight-card">
+                <h4>Confusion Matrix ({{ metadata.best_model_name }})</h4>
+                <img src="{{ url_for('static', filename='img/best_model_confusion_matrix.png') }}" alt="Confusion matrix">
+            </div>
+            <div class="insight-card">
+                <h4>Feature Correlation</h4>
+                <img src="{{ url_for('static', filename='img/correlation_heatmap.png') }}" alt="Correlation heatmap">
+            </div>
+            <div class="insight-card">
+                <h4>Class Distribution</h4>
+                <img src="{{ url_for('static', filename='img/class_distribution.png') }}" alt="Class distribution chart">
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="cta">
+    <div class="section-inner cta-inner">
+        <h2>Ready to check your flood risk?</h2>
+        <p>Enter local weather data and get a prediction in seconds.</p>
+        <a href="{{ url_for('main.predict_page') }}" class="btn btn-primary btn-large">Start Prediction &rarr;</a>
+    </div>
+</section>
+{% endblock %}

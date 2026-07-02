@@ -1,0 +1,42 @@
+{
+  "best_model_name": "Decision Tree",
+  "feature_order": [
+    "Temp",
+    "Humidity",
+    "Cloud Cover",
+    "ANNUAL",
+    "Jan-Feb",
+    "Mar-May",
+    "Jun-Sep",
+    "Oct-Dec",
+    "avgjune",
+    "sub"
+  ],
+  "trained_at": "2026-07-02T05:33:19.707743+00:00",
+  "metrics": {
+    "Decision Tree": {
+      "accuracy": 0.9565217391304348,
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8
+    },
+    "Random Forest": {
+      "accuracy": 0.9565217391304348,
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8
+    },
+    "K-Nearest Neighbors": {
+      "accuracy": 0.8695652173913043,
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1": 0.4
+    },
+    "XGBoost": {
+      "accuracy": 0.8695652173913043,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  }
+}

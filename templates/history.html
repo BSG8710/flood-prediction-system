@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Prediction History - FloodGuard{% endblock %}
+
+{% block content %}
+<section class="history-page">
+    <div class="section-inner">
+        <div class="page-header">
+            <h1>Prediction History</h1>
+            <p>The most recent 50 predictions logged by the system.</p>
+        </div>
+
+        {% if records %}
+        <div class="card table-card">
+            <div class="table-scroll">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Temp (°C)</th>
+                            <th>Humidity (%)</th>
+                            <th>Cloud Cover (%)</th>
+                            <th>Annual Rainfall (mm)</th>
+                            <th>Model</th>
+                            <th>Result</th>
+                            <th>Flood Probability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for prediction, weather, model in records %}
+                        <tr>
+                            <td>{{ prediction.prediction_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ "%.1f"|format(weather.temp) }}</td>
+                            <td>{{ "%.1f"|format(weather.humidity) }}</td>
+                            <td>{{ "%.1f"|format(weather.cloud_cover) }}</td>
+                            <td>{{ "%.1f"|format(weather.annual) }}</td>
+                            <td>{{ model.name }}</td>
+                            <td>
+                                {% if prediction.flood_result == 1 %}
+                                <span class="pill pill-danger">Flood Risk</span>
+                                {% else %}
+                                <span class="pill pill-safe">Safe</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ "%.1f"|format(prediction.flood_probability) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="card empty-state">
+            <div class="placeholder-icon">🗂️</div>
+            <p>No predictions logged yet.</p>
+            <a href="{{ url_for('main.predict_page') }}" class="btn btn-primary">Run your first prediction</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
