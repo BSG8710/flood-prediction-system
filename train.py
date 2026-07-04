@@ -157,9 +157,10 @@ def build_models(scale_pos_weight):
             random_state=RANDOM_STATE, max_depth=5, class_weight="balanced"
         ),
         "Random Forest": RandomForestClassifier(
-            n_estimators=200,
+            n_estimators=300,
             random_state=RANDOM_STATE,
             max_depth=6,
+            min_samples_leaf=2,
             class_weight="balanced",
         ),
         "K-Nearest Neighbors": KNeighborsClassifier(n_neighbors=5),
