@@ -245,12 +245,25 @@ def plot_confusion_matrix(cm, model_name):
 
 
 def select_best_model(results):
-    """Step 6: Pick the model with the highest F1-score.
+    """Step 6: Pick the best model to deploy.
 
-    F1 is used instead of raw accuracy because the dataset is imbalanced;
-    a model could score high accuracy just by always predicting "no flood".
+    Decision Tree often ties on F1-score, but gives all-or-nothing
+    confidence (0% or 100%) because a single tree's leaves are frequently
+    "pure" on a small dataset like this one. Random Forest averages the
+    vote of 200 trees, so it reports smoother, more realistic probabilities
+    (e.g. 26%, 63%, 91%) instead of only 0%/100%. Since the UI displays a
+    live probability percentage, Random Forest is preferred whenever it's
+    reasonably close in performance to the top F1-score.
     """
-    best_name = max(results, key=lambda n: results[n]["f1"])
+    best_f1 = max(results[n]["f1"] for n in results)
+    rf_f1 = results["Random Forest"]["f1"]
+
+    # Prefer Random Forest as long as it's within 5 points of the top score.
+    if best_f1 - rf_f1 <= 0.05:
+        best_name = "Random Forest"
+    else:
+        best_name = max(results, key=lambda n: results[n]["f1"])
+
     best = results[best_name]
     print("\n" + "=" * 60)
     print(f"BEST MODEL SELECTED: {best_name}")
