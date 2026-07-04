@@ -4,22 +4,6 @@
 
 A production-quality flood prediction web application built with Flask and scikit-learn/XGBoost. The system trains and compares multiple ML classifiers on historical flood data, serves the best model through a REST API, and displays predictions through a modern responsive web interface.
 
----
-
-## What was fixed from the original project
-
-- **`app.py`** had bare comment lines missing `#` (e.g. a line just saying
-  `1. Load the saved model and scaler`), causing a `SyntaxError` in Python.
-  It also had `float(prediction_proba[1])  100` — a missing `*` operator.
-- **`train.py`** had the same missing-`#` problem throughout, indentation
-  that fell outside the function body, `"="50` instead of `"="*50`, and it
-  pointed at a `flood_prediction.csv` that didn't exist (the real dataset is
-  an `.xlsx` file with different column names).
-- **`static/script.js` was completely empty** — the prediction form had no
-  JavaScript at all, so it could never call the backend.
-- The project was a single flat folder with no separation between the ML
-  pipeline, the web layer, and configuration, and the UI was a single
-  hard-coded HTML/CSS pair with no result page logic wired up.
 
 Everything below is a clean rebuild — the ML approach (train several classifiers, compare, keep the best, serve it through Flask) is preserved and improved.
 
