@@ -36,6 +36,20 @@ def create_app():
 
     from app import models  # noqa: F401  (needed so tables are registered)
 
+    with app.app_context():
+        db.create_all()
+        models.ensure_default_user()
+        models.sync_ml_model_registry()
+
+        from app import seed
+        seed.seed_sample_predictions(50)
+
+    from app.routes import main_bp
+
+    app.register_blueprint(main_bp)
+
+    return app    from app import models  # noqa: F401  (needed so tables are registered)
+
    with app.app_context():
         db.create_all()
         models.ensure_default_user()
