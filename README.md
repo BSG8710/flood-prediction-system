@@ -206,9 +206,10 @@ Self-contained script. Loads the dataset, runs EDA, preprocesses, trains four cl
 
 ---
 
-## Re-training with New Data
+## Training with Data
 
-Replace `data/flood_dataset.xlsx` (keep the same column names) and re-run:
+Replace `data/flood_dataset.xlsx` with your dataset (make sure the column names remain the same), then run the code as if it’s the first execution :
+
 
 ```bash
 python train.py
