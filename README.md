@@ -9,7 +9,7 @@ Everything below is a clean rebuild — the ML approach (train several classifie
 
 Demo Video :
           
-              https://drive.google.com/file/d/1rIqSjVp7ecO4652OR2ppRIrKCUmasZyt/view?usp=sharing
+https://drive.google.com/file/d/1rIqSjVp7ecO4652OR2ppRIrKCUmasZyt/view?usp=sharing
 ---
 
 ## Project Structure
